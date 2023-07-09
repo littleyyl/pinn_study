@@ -9,11 +9,12 @@ PINN的解释为 neural networks that are trained to solve supervised learning t
 
 #### PINN 基本原理
 经过调研和学习，笔者认为 PINN 的关键特点在于损失函数的定义。这里直接引用上面提到的论文中的例子：对于下面一个初值-边值问题
-![](http://latex.codecogs.com/gif.latex?
-N_{\boldsymbol{x},t}[u(\boldsymbol{x},t)] = f(\boldsymbol{x},t) \qquad \boldsymbol{x}\in\Omega \quad t\in[0, T]\\
+
+$N_{\boldsymbol{x},t}[u(\boldsymbol{x},t)] = f(\boldsymbol{x},t) \qquad \boldsymbol{x}\in\Omega \quad t\in[0, T]\\
 B_{\boldsymbol{x},t}[u(\boldsymbol{x},t)] = g(\boldsymbol{x},t) \qquad \boldsymbol{x}\in\partial\Omega \quad t\in[0, T]\\
 u(\boldsymbol{x},t)|_{t=0} = h(\boldsymbol{x})  \qquad\qquad \boldsymbol{x}\in\bar{\Omega}
-)
+$
+
 经典的 PINN 损失函数本质上仍然是最小均方误差(MSE)，但具体的表达式与其他神经网络不同: $L(\boldsymbol{w}) = L_s(\boldsymbol{w}) + L_r(\boldsymbol{w}) + L_b(\boldsymbol{w}) + L_0(\boldsymbol{w})$。 式中
 - $L_s(\boldsymbol{w})$ 为模型求解与精确解之间的误差带来的损失
 - $L_r(\boldsymbol{w})$ 为微分方程带来的损失
@@ -27,10 +28,10 @@ u(\boldsymbol{x},t)|_{t=0} = h(\boldsymbol{x})  \qquad\qquad \boldsymbol{x}\in\b
 - $\boldsymbol{x_0}$ 初始时刻随机取点
 
 因此损失函数四部分的具体表达式为
-$$L_s(\boldsymbol{w}) = \sum_{i=1}^{N_s}\left | u(\boldsymbol{x_s^i},t_s^i;\boldsymbol{w}) - y_{s}^{i}\right |^2     \\
+$L_s(\boldsymbol{w}) = \sum_{i=1}^{N_s}\left | u(\boldsymbol{x_s^i},t_s^i;\boldsymbol{w}) - y_{s}^{i}\right |^2     \\
 L_r(\boldsymbol{w}) = \sum_{i=1}^{N_r}\left | N_{\boldsymbol{x},t}[u(\boldsymbol{x_r^i},t_r^i;\boldsymbol{w})] - f(\boldsymbol{x_r^i},t_r^i) \right |^2    \\
 L_b(\boldsymbol{w}) = \sum_{i=1}^{N_b}\left | B_{\boldsymbol{x},t}[u(\boldsymbol{x_b^i},t_b^i;\boldsymbol{w})] - g(\boldsymbol{x_b^i},t_b^i) \right |^2     \\
-L_0(\boldsymbol{w}) = \sum_{i=1}^{N_0}\left | u(\boldsymbol{x_0^i},0;\boldsymbol{w}) - h(\boldsymbol{x_0^i})\right |^2\\$$
+L_0(\boldsymbol{w}) = \sum_{i=1}^{N_0}\left | u(\boldsymbol{x_0^i},0;\boldsymbol{w}) - h(\boldsymbol{x_0^i})\right |^2\\$
 
 ## 简单案例
 ## PINN 优化方法
